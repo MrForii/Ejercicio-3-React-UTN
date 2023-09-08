@@ -9,9 +9,10 @@ function agregarTarea() {
         const nuevaTarea = document.createElement("li");
         nuevaTarea.textContent = nuevaTareaTexto;
 
+        
         const botonCompletar = document.createElement("button");
         botonCompletar.textContent = "Completar Tarea";
-        botonCompletar.className = "completeTask";
+        botonCompletar.className = "completedbtn";
         botonCompletar.onclick = function() {
             marcarCompletada(nuevaTarea);
         }
@@ -23,13 +24,16 @@ function agregarTarea() {
             listaTareas.removeChild(nuevaTarea);
         };
 
+        const divBtn = document.createElement("div");
+        divBtn.appendChild(botonCompletar);
+        divBtn.appendChild(botonEliminar);
+
         if (nuevaTareaStatus.value === "completed") {
             nuevaTarea.classList.add("completed");
         } else {
             nuevaTarea.classList.add("pending");
         }
-        nuevaTarea.appendChild(botonEliminar);
-        nuevaTarea.appendChild(botonCompletar);
+        nuevaTarea.appendChild(divBtn);
         listaTareas.appendChild(nuevaTarea);
         nuevaTareaInput.value = "";
 
@@ -37,7 +41,10 @@ function agregarTarea() {
 }
 // Función para marcar una tarea como completada
 function marcarCompletada(tarea) {
-    tarea.classList.toggle("completed");
+    if (tarea.classList.contains('pending')) {
+        tarea.classList.remove('pending');
+    }
+    tarea.classList.add("completed");
 }
 
 // Agregar evento de clic a las tareas para marcarlas como
